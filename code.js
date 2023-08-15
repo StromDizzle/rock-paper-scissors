@@ -5,36 +5,17 @@ let playerChoice = "";
 let winner = 0;
 let play = true;
 
-const buttons = document.querySelectorAll('#btn');
+const buttons = document.querySelectorAll('.btn');
 buttons.forEach(button => {
     button.addEventListener('click', () => playRound(button.textContent));
 });
 
+const container = document.querySelector('#container');
+const message = document.createElement('div');
+container.appendChild(message);
 
-//while (play === true){
-
-    //playerChoice = getPlayerChoice();
-    //winner = playRound(playerChoice);
-    //if (winner === 1){
-    //    playerScore++;
-    //}
-    //else if (winner === -1){
-    //    computerScore++;
-    //}
-    //console.log("Player score: " + playerScore + " Computer Score: " + computerScore);
-//}
-
-if (playerScore > computerScore){
-    alert("You won! Your score = " + playerScore + " Computer score = " + computerScore);
-}
-
-else if (computerScore > playerScore){
-    alert("You lost! Your score = " + playerScore + " Computer score = " + computerScore)
-}
-
-else{
-    alert("something went terribly wrong when comparing scores!")
-}
+const score = document.createElement('div');
+container.appendChild(score);
 
 
 function getComputerChoice(){
@@ -50,54 +31,74 @@ function getComputerChoice(){
     }
 }
 
+function checkWin(){
+    if (playerScore === 5){
+        message.textContent = `You win! Your final score: ${playerScore} Computer final Score: ${computerScore}`;
+        playerScore = 0;
+        computerScore = 0;
+    }
+    else if (computerScore === 5){
+        message.textContent = `You lose! Your final score: ${playerScore} Computer final Score: ${computerScore}`;
+        playerScore = 0;
+        computerScore = 0;
+    }
+    return;
+}
+
 function playRound(playerSelection){
     //if the strings are equal, output that its a tie
     let computerSelection = getComputerChoice();
+    let outcome = -5;
     playerSelection = playerSelection.toLowerCase();
     
     if (playerSelection === computerSelection){
-        console.log("It's a tie! Try again!");
-        return 0;
+        message.textContent = "It's a tie! Try again!";
+        outcome = 0;
     }
 
     if (playerSelection === "rock"){
         if (computerSelection === "scissors"){
             playerScore++;
-            console.log("You Win! Rock beats scissors!");
-            return 1;
+            message.textContent = "You Win! Rock beats scissors!";
+            outcome = 1;
         }
         if (computerSelection === "paper"){
             computerScore++;
-            console.log("You Lose! Paper beats Rock!");
-            return -1;
+            message.textContent = "You Lose! Paper beats Rock!";
+            outcome = -1;
         }
     }
 
     if (playerSelection === "paper"){
         if (computerSelection === "rock"){
             playerScore++;
-            console.log("You Win! Paper beats Rock!");
-            return 1;
+            message.textContent = "You Win! Paper beats Rock!";
+            outcome = 1;
         }
         if (computerSelection === "scissors"){
             computerScore++;
-            console.log("You Lose! Scissors beats paper!");
-            return -1;
+            message.textContent = "You Lose! Scissors beats paper!";
+            outcome = -1;
         }
     }
 
     if (playerSelection === "scissors"){
         if (computerSelection === "paper"){
             playerScore++;
-            console.log("You Win! Scissors beats Paper!");
-            return 1;
+            message.textContent = "You Win! Scissors beats Paper!";
+            outcome = 1;
         }
         if (computerSelection === "rock"){
             computerScore++;
-            console.log("You Lose! Rock beats scissors!");
-            return -1;
+            message.textContent = "You Lose! Rock beats scissors!";
+            outcome = -1;
         }
     }
+    if(outcome === -5){
+        console.log("Something went hella wrong when deciding who won :(((((");
+    }    
+    checkWin();
+    score.textContent = `Your Score: ${playerScore} Computer Score: ${computerScore}`;
+    return outcome;
 
-    console.log("Something went hella wrong!");
 }
