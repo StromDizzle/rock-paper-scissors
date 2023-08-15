@@ -1,43 +1,41 @@
 
-game();
+let playerScore = 0;
+let computerScore = 0;
+let playerChoice = "";
+let winner = 0;
+let play = true;
 
-function game(){
-    let playerScore = 0;
-    let computerScore = 0;
-    let playerChoice = "";
-    let computerChoice = "";
-    let winner = 0;
+const buttons = document.querySelectorAll('#btn');
+buttons.forEach(button => {
+    button.addEventListener('click', () => playRound(button.textContent));
+});
 
-    while (playerScore < 5 && computerScore < 5){
-        playerChoice = getPlayerChoice();
-        computerChoice = getComputerChoice();
-        winner = playRound(playerChoice, computerChoice);
-        if (winner === 1){
-            playerScore++;
-        }
-        else if (winner === -1){
-            computerScore++;
-        }
-        console.log("Player score: " + playerScore + " Computer Score: " + computerScore);
-    }
 
-    if (playerScore > computerScore){
-        alert("You won! Your score = " + playerScore + " Computer score = " + computerScore);
-    }
+//while (play === true){
 
-    else if (computerScore > playerScore){
-        alert("You lost! Your score = " + playerScore + " Computer score = " + computerScore)
-    }
+    //playerChoice = getPlayerChoice();
+    //winner = playRound(playerChoice);
+    //if (winner === 1){
+    //    playerScore++;
+    //}
+    //else if (winner === -1){
+    //    computerScore++;
+    //}
+    //console.log("Player score: " + playerScore + " Computer Score: " + computerScore);
+//}
 
-    else{
-        alert("something went terribly wrong when comparing scores!")
-    }
-
+if (playerScore > computerScore){
+    alert("You won! Your score = " + playerScore + " Computer score = " + computerScore);
 }
 
-function getPlayerChoice(){
-    return prompt("what do you choose?").toLowerCase();
+else if (computerScore > playerScore){
+    alert("You lost! Your score = " + playerScore + " Computer score = " + computerScore)
 }
+
+else{
+    alert("something went terribly wrong when comparing scores!")
+}
+
 
 function getComputerChoice(){
     let randomNumber = Math.floor((Math.random() * 3) + 1);
@@ -52,8 +50,11 @@ function getComputerChoice(){
     }
 }
 
-function playRound(playerSelection, computerSelection){
+function playRound(playerSelection){
     //if the strings are equal, output that its a tie
+    let computerSelection = getComputerChoice();
+    playerSelection = playerSelection.toLowerCase();
+    
     if (playerSelection === computerSelection){
         console.log("It's a tie! Try again!");
         return 0;
@@ -61,12 +62,12 @@ function playRound(playerSelection, computerSelection){
 
     if (playerSelection === "rock"){
         if (computerSelection === "scissors"){
-            game.playerScore++;
+            playerScore++;
             console.log("You Win! Rock beats scissors!");
             return 1;
         }
         if (computerSelection === "paper"){
-            game.computerScore++;
+            computerScore++;
             console.log("You Lose! Paper beats Rock!");
             return -1;
         }
@@ -74,12 +75,12 @@ function playRound(playerSelection, computerSelection){
 
     if (playerSelection === "paper"){
         if (computerSelection === "rock"){
-            game.playerScore++;
+            playerScore++;
             console.log("You Win! Paper beats Rock!");
             return 1;
         }
         if (computerSelection === "scissors"){
-            game.computerScore++;
+            computerScore++;
             console.log("You Lose! Scissors beats paper!");
             return -1;
         }
@@ -87,12 +88,12 @@ function playRound(playerSelection, computerSelection){
 
     if (playerSelection === "scissors"){
         if (computerSelection === "paper"){
-            game.playerScore++;
+            playerScore++;
             console.log("You Win! Scissors beats Paper!");
             return 1;
         }
         if (computerSelection === "rock"){
-            game.computerScore++;
+            computerScore++;
             console.log("You Lose! Rock beats scissors!");
             return -1;
         }
